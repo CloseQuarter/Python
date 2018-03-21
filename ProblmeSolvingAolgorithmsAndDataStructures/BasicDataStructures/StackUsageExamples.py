@@ -384,41 +384,41 @@ def infix_to_postfix(infix_expr):
                 top_token = op_stack.pop()
         
         #for all other symbols
-    else:
+        else:
         
-        #ie. for +,*,-./
-        # compare with all ops in the op_stack
-        # find out if there is any operator with higher precedence
-        # if yes add all of them to output
-        # push to op_stack
-        
-        while not op_stack.is_empty():
+            #ie. for +,*,-./
+            # compare with all ops in the op_stack
+            # find out if there is any operator with higher precedence
+            # if yes add all of them to output
+            # push to op_stack
             
-            #get operator
-            oper = op_stack.peek()
-            
-            #get precedence
-            oper_prec = prec[oper]
-            
-            #get precedence of current token
-            token_prec = prec[token]
-            
-            #compare
-            if oper_prec >= token_prec:
+            while not op_stack.is_empty():
                 
-                #pop it
-                oper = op_stack.pop()
+                #get operator
+                oper = op_stack.peek()
                 
-                #add to output
-                postfix_list.append(oper)
-        
-        #if op_stack is empty    
-        #push the operator to op_stack
-        op_stack.push(token)    
-        
-   #expression enumration complete
+                #get precedence
+                oper_prec = prec[oper]
+                
+                #get precedence of current token
+                token_prec = prec[token]
+                
+                #compare
+                if oper_prec >= token_prec:
+                    
+                    #pop it
+                    oper = op_stack.pop()
+                    
+                    #add to output
+                    postfix_list.append(oper)
+            
+            #if op_stack is empty    
+            #push the operator to op_stack
+            op_stack.push(token)    
+            
+       #expression enumration complete
    
-   #loop through opstack
+    #loop through opstack
     while not op_stack.is_empty():
         #add them to output
         postfix_list.append(op_stack.pop())
