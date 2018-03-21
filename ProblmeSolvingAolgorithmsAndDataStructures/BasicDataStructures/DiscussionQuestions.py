@@ -148,9 +148,58 @@ test_dq_divide_by_base()
        A * B * C * D + E + F
 """
 
-def dq_infix_to_prefix(element):
-    pass
-
+def dq_infix_to_postfix(infix_expr):
+    
+    #precedence table
+    prec = {}
+    prec["*"] = 3
+    prec["/"] = 3
+    prec["+"] = 2
+    prec["-"] = 2
+    prec["("] = 1
+    
+    alaphabet_tokens = \
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    numeral_tokens = \
+    "0123456789"
+    
+    #stack to hold operators
+    op_stack = Stack()
+    
+    #list to hold operands
+    #and final result
+    postfix_list = []
+    
+    #split the expression
+    tokens_list = \
+    infix_expr.split()
+    
+    #evaluate the expression
+    for token in tokens_list:
+        
+        if token in alaphabet_tokens or \
+        token in numeral_tokens:
+        
+            postfix_list.append(token)
+            
+        if token == "(":
+            
+            op_stack.push()
+            
+        if token in "*+/-":
+            
+            op_stack.push(token)
+                
+        if token is ")":
+            
+            op = ""
+            
+            while not op is "(":
+                
+                postfix_list.append(op_stack.pop())
+                
+                
 
 
 
