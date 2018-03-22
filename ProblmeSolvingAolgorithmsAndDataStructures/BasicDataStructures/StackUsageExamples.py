@@ -5,7 +5,7 @@ Created on Fri Feb 23 19:26:12 2018
 @author: sanooj
 """
 
-from DataStructures import Stack
+from DataStructures.Stack import Stack
 
 """
 Exercises
@@ -14,7 +14,7 @@ Given the following sequence
  what is the top item on the stack
  when the
 sequence is complete?
-m = Stack.Stack()
+m = Stack()
 m.push('x')
 m.push('y')
 m.pop()
@@ -26,7 +26,7 @@ class StackExercises:
     
     def testingOperations():
         print("testingOperations")
-        m = Stack.Stack()
+        m = Stack()
         m.push('x')
         m.push('y')
         m.debug_print()
@@ -37,7 +37,7 @@ class StackExercises:
         print(m.peek())
         
     def testingLoopingScenario():
-        m = Stack.Stack()
+        m = Stack()
         m.push("x")
         m.push("y")
         m.push("z")
@@ -61,7 +61,7 @@ class BalancingParantheses:
         open_brace = '('
         close_brace = ")"
         
-        stack =  Stack.Stack()
+        stack =  Stack()
         
         string_to_test = "((()))"
         
@@ -79,7 +79,7 @@ class BalancingParantheses:
         print(stack.is_empty())
         
     def par_checker(symbol_string):
-        s = Stack.Stack()
+        s = Stack()
         balanced = True
         index = 0
         while index < len(symbol_string) and balanced:
@@ -122,7 +122,7 @@ class BalancingALotOfSymbols:
     def testingMyApproach(string_to_test):
         open_braces = '({['
       
-        stack =  Stack.Stack()
+        stack =  Stack()
         
         for index in range(0,len(string_to_test)):
             char = string_to_test[index]
@@ -145,7 +145,7 @@ class BalancingALotOfSymbols:
             closes = ")]}"
             return opens.index(open) == closes.index(close)
         
-        s = Stack.Stack()
+        s = Stack()
         balanced = True
         index = 0
         while index < len(symbol_string) and balanced:
@@ -168,7 +168,7 @@ class BalancingALotOfSymbols:
         
     def parantheses_checker_rewrite(symbol_string):
       isBalanced = True
-      stack = Stack.Stack()
+      stack = Stack()
       open_chars = "({["
       
       def is_a_match(open_char,close_char):
@@ -341,7 +341,7 @@ def infix_to_postfix(infix_expr):
     "0123456789"
     
     #stack to hold operators
-    op_stack = Stack.Stack()
+    op_stack = Stack()
     
     #list to hold operands
     #and final result
@@ -444,7 +444,7 @@ def infix_to_postfix1(infix_expr):
     "0123456789"
     
     #stack to hold operators
-    op_stack = Stack.Stack()
+    op_stack = Stack()
     
     #list to hold operands
     #and final result
@@ -532,7 +532,7 @@ def evaluating_a_prefix(postfix_expr):
      "/" : operator.__truediv__,
     }
     
-    op_stack = Stack.Stack()
+    op_stack = Stack()
     
     for token in postfix_expr:
         if token in numeral_tokens:
@@ -558,7 +558,7 @@ print(evaluating_a_prefix('78+32+/'))
 
 
 def postfix_eval(postfix_expr):
-    operand_stack = Stack.Stack()
+    operand_stack = Stack()
     token_list = postfix_expr.split()
     for token in token_list:
         if token in "0123456789":

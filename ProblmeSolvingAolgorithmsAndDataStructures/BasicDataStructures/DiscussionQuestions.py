@@ -150,7 +150,7 @@ test_dq_divide_by_base()
 
 def dq_infix_to_postfix(infix_expr):
     
-    #precedence table
+   #precedence table
     prec = {}
     prec["*"] = 3
     prec["/"] = 3
@@ -176,32 +176,79 @@ def dq_infix_to_postfix(infix_expr):
     infix_expr.split()
     
     #evaluate the expression
+    """
+    #1 match alphabet or numeral tokes and add them to  
+    """
+    #enumerate the expression
     for token in tokens_list:
         
+        #look for a matching alphabet or numeral token
         if token in alaphabet_tokens or \
-        token in numeral_tokens:
-        
+        token in numeral_tokens :
+            
+            #if matches add it to postfix_list
             postfix_list.append(token)
             
-        if token == "(":
-            
-            op_stack.push()
-            
-        if token in "*+/-":
-            
+        #look for matching "(" 
+        #push it to operand stack
+        elif token == "(":
             op_stack.push(token)
-                
-        if token is ")":
+        
+        #look for closing braces )
+        elif token == ")":
+            """
+            #1 closing - means end of scope
+            #2 so we need to pop the stack
+            #3 utill we get the corresponding open "("
+            #4 add all the appended operators to the output
+            """
+            top_token = op_stack.pop()
+            while top_token != "(":
+                postfix_list.append(top_token)
+                top_token = op_stack.pop()
+        
+        #for all other symbols
+        else:
+        
+            #ie. for +,*,-./
+            # compare with all ops in the op_stack
+            # find out if there is any operator with higher precedence
+            # if yes add all of them to output
+            # push to op_stack
             
-            op = ""
+            #get operator
+            oper = op_stack.peek()
+                
+            #get precedence
+            oper_prec = prec[oper]
+                
+            #get precedence of current token
+            token_prec = prec[token]
             
-            while not op is "(":
+            while not op_stack.is_empty() and \
+            oper_prec >= token_prec :
                 
-                postfix_list.append(op_stack.pop())
+                #pop it
+                oper = op_stack.pop()
                 
-                
+                #add to output
+                postfix_list.append(oper)
+            
+            #if op_stack is empty    
+            #push the operator to op_stack
+            op_stack.push(token)    
+            
+       #expression enumration complete
+   
+    #loop through opstack
+    while not op_stack.is_empty():
+        #add them to output
+        postfix_list.append(op_stack.pop())
+    
+    #join the string
+    return " ".join(postfix_list)
 
-
+print(dq_infix_to_postfix("( ( A + B ) * C )"))
 
 
 
