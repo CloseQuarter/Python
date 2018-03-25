@@ -362,3 +362,153 @@ print(
        "%s ==> \n %s" 
       %(exp, dq_infix_to_prefix(exp))
       )
+
+"""
+Evaluate the following postfix expressions.
+ Show the stack as each operand and operator
+is processed.
+
+• 23 * 4+
+• 12 + 3 + 4 + 5+
+• 12345 * + * +
+
+"""
+def dq_evaluate_postfix(postfix_expr):
+
+    """
+    1. add numbesr to stack
+    2. whne you reach an operator 
+            pop the stack twice
+    3 perform the math of the opeartor
+    """    
+    
+    print(postfix_expr)
+    
+    op_stack = Stack()
+    
+    numeral_tokens = \
+    "0123456789"
+    
+    operator_tokens = \
+    "+-*/"
+        
+    import operator
+    
+    operator_to_fn_map = \
+    {
+     "+" : operator.add,
+     "*" : operator.mul,
+     "-" : operator.sub,
+     "/" : operator.__truediv__,
+    }
+    
+    #start parsing
+    for token in postfix_expr:
+        
+        print("Stack -> %s" %(op_stack.items))
+        
+        #case operand
+        if token in numeral_tokens:
+            op_stack.push(token)
+            
+        #case operator
+        elif token in operator_tokens:
+            
+            second_operand = \
+            op_stack.pop()
+            
+            first_operand = \
+            op_stack.pop()
+            
+            #perform math
+            operator_fn = \
+            operator_to_fn_map[token]
+            
+            result = \
+            operator_fn(
+                    int(first_operand),
+                    int(second_operand)
+                    )
+            #push result to stack
+            op_stack.push(result)
+            
+    return op_stack.pop()
+    
+    
+print(dq_evaluate_postfix("23 * 4+"))
+print(dq_evaluate_postfix("12 + 3 + 4 + 5+"))
+print(dq_evaluate_postfix("12345 * + * +"))
+
+"""
+3 + 4 => +34
+"""
+def dq_evaluate_prefix(prefix_expr):
+    
+    """
+    1. add numbesr to stack
+    2. whne you reach an operator 
+            pop the stack twice
+    3 perform the math of the opeartor
+    """    
+    
+    print(prefix_expr)
+    
+    op_stack = Stack()
+    
+    numeral_tokens = \
+    "0123456789"
+    
+    operator_tokens = \
+    "+-*/"
+        
+    import operator
+    
+    operator_to_fn_map = \
+    {
+     "+" : operator.add,
+     "*" : operator.mul,
+     "-" : operator.sub,
+     "/" : operator.__truediv__,
+    }
+    
+    #start parsing
+    for token in prefix_expr[::-1]:
+        
+        print("Stack -> %s" %(op_stack.items))
+        
+        #case operand
+        if token in numeral_tokens:
+            op_stack.push(token)
+            
+        #case operator
+        elif token in operator_tokens:
+            
+            second_operand = \
+            op_stack.pop()
+            
+            first_operand = \
+            op_stack.pop()
+            
+            #perform math
+            operator_fn = \
+            operator_to_fn_map[token]
+            
+            result = \
+            operator_fn(
+                    int(first_operand),
+                    int(second_operand)
+                    )
+            #push result to stack
+            op_stack.push(result)
+            
+    return op_stack.pop()
+
+print(dq_evaluate_infix("+34"))
+prefix_exp = "*+345"
+print(
+      "%s => %s" %( prefix_exp, dq_evaluate_infix(prefix_exp)
+      ))
+prefix_exp = "+3*45"
+print(
+      "%s => %s" %( prefix_exp, dq_evaluate_infix(prefix_exp)
+      ))
