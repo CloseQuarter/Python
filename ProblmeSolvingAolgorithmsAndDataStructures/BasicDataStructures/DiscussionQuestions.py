@@ -215,18 +215,9 @@ def dq_infix_to_postfix(infix_expr):
             # find out if there is any operator with higher precedence
             # if yes add all of them to output
             # push to op_stack
-            
-            #get operator
-            oper = op_stack.peek()
-                
-            #get precedence
-            oper_prec = prec[oper]
-                
-            #get precedence of current token
-            token_prec = prec[token]
-            
+                    
             while not op_stack.is_empty() and \
-            oper_prec >= token_prec :
+            prec[op_stack.peek()] >= prec[token] :
                 
                 #pop it
                 oper = op_stack.pop()
@@ -248,9 +239,126 @@ def dq_infix_to_postfix(infix_expr):
     #join the string
     return " ".join(postfix_list)
 
-print(dq_infix_to_postfix("( ( A + B ) * C )"))
+#print(dq_infix_to_postfix("( ( A + B ) * C )"))
+#print(dq_infix_to_postfix("( A * ( B + C ) )"))
 
 
+def dq_infix_to_prefix(infix_expr):
+    
+    #precedence table
+    prec = {}
+    prec["*"] = 3
+    prec["/"] = 3
+    prec["+"] = 2
+    prec["-"] = 2
+    prec[")"] = 1
+    
+    alaphabet_tokens = \
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    numeral_tokens = \
+    "0123456789"
+    
+    #stack to hold operators
+    op_stack = Stack()
+    
+    #list to hold operands
+    #and final result
+    prefix_list = []
+    
+    #split the expression
+    tokens_list = \
+    infix_expr.split()
+    
+    #print("tokens_list %s" %(tokens_list))
+    
+    # evaluate the expression
+    # we start evaluating left to right
+    # 1. reverse the list
+    tokens_list_reversed = \
+    tokens_list[::-1] 
+    
+    #print("tokens_list_reversed %s" %(tokens_list_reversed))
+    #print("tokens_list %s" %(tokens_list))
+    
+    
+    #expression enumration begin
+    for token in tokens_list_reversed:
+        #2. case ")"
+        # since we start from the end of the expression
+        # we consider "(" to be end of the grouping
+        if token is ")":
+            op_stack.push(token)
+            
+        #3.case operand 
+        elif token in alaphabet_tokens or \
+        token in numeral_tokens:
+            prefix_list.append(token)
+            
+        #4. case "("
+        elif token is "(":
+            # marks the end of expression or
+            # closing of  a grouping ()
+            # move all operators till "(" to output
+            
+            
+            top_operator = \
+            op_stack.pop()
+            
+            while not  top_operator is ")":
+                prefix_list.append(top_operator)
+                top_operator = \
+                op_stack.pop()
+                
+        else:
+            
+            #ie. for +,*,-./
+            # compare with all ops in the op_stack
+            # find out if there is any operator with higher precedence
+            # if yes add all of them to output
+            # push to op_stack
+                    
+            while not op_stack.is_empty() and \
+            prec[op_stack.peek()] >= prec[token]:
+                
+                #move them to output
+                operator = \
+                op_stack.pop()
+                
+                prefix_list.append(operator)
+                
+            #if op_stack is empty    
+            #push the operator to op_stack
+            op_stack.push(token)    
+            
+       #expression enumration complete
+       
+    #move the remaining items
+    while not op_stack.is_empty():
+           
+       operator = \
+       op_stack.pop()
+            
+       prefix_list.append(operator)
+           
+    #join the string
+    return " ".join(prefix_list[::-1])
+    
+def dq_test_infix_to_prefix_or_postfix():    
+    print(dq_infix_to_prefix("( A + B )"))
+    print(dq_infix_to_prefix("( A * ( B + C ) )"))
+    print(dq_infix_to_prefix("A * B + C"))
+    print(dq_infix_to_prefix("( ( A * B ) + C )"))
+    print(dq_infix_to_postfix("( A * ( B + C ) )"))
+    print(dq_infix_to_postfix("( ( A * B ) + C )"))
+    print(dq_infix_to_postfix("A * B + C"))
 
-
-
+exp = "( A + B ) * ( C + D ) * ( E + F )"
+print(
+       "%s ==> \n %s" 
+      %(exp, dq_infix_to_postfix(exp))
+      )
+print(
+       "%s ==> \n %s" 
+      %(exp, dq_infix_to_prefix(exp))
+      )
