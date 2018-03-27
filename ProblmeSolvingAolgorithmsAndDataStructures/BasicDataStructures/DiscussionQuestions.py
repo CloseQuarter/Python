@@ -503,12 +503,111 @@ def dq_evaluate_prefix(prefix_expr):
             
     return op_stack.pop()
 
-print(dq_evaluate_infix("+34"))
+print(dq_evaluate_prefix("+34"))
 prefix_exp = "*+345"
 print(
-      "%s => %s" %( prefix_exp, dq_evaluate_infix(prefix_exp)
+      "%s => %s" %( prefix_exp, dq_evaluate_prefix(prefix_exp)
       ))
 prefix_exp = "+3*45"
 print(
-      "%s => %s" %( prefix_exp, dq_evaluate_infix(prefix_exp)
+      "%s => %s" %( prefix_exp, dq_evaluate_prefix(prefix_exp)
       ))
+
+
+def dq_infix_to_prefix_two_stacks_method(infix_expr):
+    
+    #precedence table
+    prec = {}
+    prec["*"] = 3
+    prec["/"] = 3
+    prec["+"] = 2
+    prec["-"] = 2
+    prec[")"] = 1
+    
+    alaphabet_tokens = \
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    numeral_tokens = \
+    "0123456789"
+    
+    #stack to hold operators
+    op_stack = Stack()
+    
+    #list to hold operands
+    #and final result
+    prefix_stack = Stack()
+    
+    #split the expression
+    tokens_list = \
+    infix_expr.split()
+    
+    #print("tokens_list %s" %(tokens_list))
+    
+    # evaluate the expression
+    # we start evaluating left to right
+    # 1. reverse the list
+    tokens_list_reversed = \
+    tokens_list[::-1]
+    
+    #expression enumration begin
+    for token in tokens_list_reversed:
+        #2. case ")"
+        # since we start from the end of the expression
+        # we consider "(" to be end of the grouping
+        if token is ")":
+            op_stack.push(token)
+            
+        #3.case operand 
+        elif token in alaphabet_tokens or \
+        token in numeral_tokens:
+            prefix_stack.push(token)
+            
+        #4. case "("
+        elif token is "(":
+            # marks the end of expression or
+            # closing of  a grouping ()
+            # move all operators till "(" to output
+            
+            
+            top_operator = \
+            op_stack.pop()
+            
+            while not  top_operator is ")":
+                prefix_stack.push(top_operator)
+                top_operator = \
+                op_stack.pop()
+                
+        else:
+            
+            #ie. for +,*,-./
+            # compare with all ops in the op_stack
+            # find out if there is any operator with higher precedence
+            # if yes add all of them to output
+            # push to op_stack
+                    
+            while not op_stack.is_empty() and \
+            prec[op_stack.peek()] >= prec[token]:
+                
+                #move them to output
+                operator = \
+                op_stack.pop()
+                
+                prefix_stack.push(operator)
+                
+            #if op_stack is empty    
+            #push the operator to op_stack
+            op_stack.push(token)    
+            
+       #expression enumration complete
+       
+    #move the remaining items
+    while not op_stack.is_empty():
+           
+       operator = \
+       op_stack.pop()
+            
+       prefix_stack.push(operator)
+           
+    #join the string
+    a = lambda stack: array = []  
+    return " ".join()
