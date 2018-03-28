@@ -609,5 +609,31 @@ def dq_infix_to_prefix_two_stacks_method(infix_expr):
        prefix_stack.push(operator)
            
     #join the string
-    a = lambda stack: array = []  
-    return " ".join()
+    joined_string = ""
+    
+    while not prefix_stack.is_empty():
+        string = prefix_stack.pop()
+        joined_string+= " " + string 
+        
+    #return " ".join(prefix_stack.items[::-1])
+    return joined_string
+
+def dq_test_infix_to_prefix_or_postfix_more():    
+    print(dq_infix_to_prefix("( A + B )"))
+    print(dq_infix_to_prefix("( A * ( B + C ) )"))
+    print(dq_infix_to_prefix("A * B + C"))
+    print(
+            dq_infix_to_prefix_two_stacks_method(
+                    "A * B + C"
+                    )
+            )
+    print(dq_infix_to_prefix("( ( A * B ) + C )"))
+    print(
+            dq_infix_to_prefix_two_stacks_method(
+                    "( ( A * B ) + C )"
+                    )
+            )
+
+dq_test_infix_to_prefix_or_postfix_more()
+
+
