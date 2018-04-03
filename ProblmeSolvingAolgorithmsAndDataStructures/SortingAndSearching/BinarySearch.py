@@ -127,4 +127,7 @@ array = [1,2,3,4,5,6]
 #print(binary_search(array, array[0]))
  
 #none
-print(binary_search(array, 15))           
+print(binary_search(array, 15))     
+
+
+      
